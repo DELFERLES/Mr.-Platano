@@ -1,0 +1,591 @@
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, maximum-scale=5">
+  <title>Costos de Producción MR. PLATANO</title>
+  <link rel="stylesheet" href="https://unpkg.com/sanitize.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    :root {
+      --primary-green: #388E3C;
+      --accent-yellow: #FFEB3B;
+      --bg-grad-start: #D0F5EC; /* Verde agua suave para fondo predominante */
+      --bg-grad-end: #A5D6A7;
+      --header-green: #2E7D32;
+      --card-bg: #C0F2DF;   /* VERDE AGUA para el fondo de tarjetas/inputs */
+      --summary-bg: #23551E; /* VERDE OSCURO predominante */
+      --summary-fg: #FFFFFF;
+      --mat-summary-bg: #23551E; /* Verde oscuro para el resumen de materiales */
+    }
+    html, body {
+      height: 100%;
+    }
+    body {
+      min-height: 100vh;
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, var(--bg-grad-start) 20%, var(--summary-bg) 90%);
+      color: #222;
+      padding-bottom: 80px;
+    }
+    header {
+      background: var(--primary-green);
+      color: var(--accent-yellow);
+      text-align: center;
+      padding: 1.2em 0 0.7em 0;
+      box-shadow: 0 2px 8px rgba(60,72,56,0.12);
+      font-size: 1.34em;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .header-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7em;
+      flex-wrap: wrap;
+      flex-direction: row;
+    }
+    .header-logo {
+      width: 55px;
+      height: 55px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.13);
+      border-radius: 30%;
+      border: 2px solid var(--accent-yellow);
+      overflow: hidden;
+      position: relative;
+      margin-right: 0.1em;
+    }
+    .header-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 30%;
+    }
+    .header-logo .upload-label {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      background: transparent;
+      color: var(--accent-yellow);
+      font-size: 2em;
+      position: absolute;
+      left: 0; top: 0;
+      z-index: 1;
+    }
+    .header-logo input[type="file"] {
+      display: none;
+    }
+    .mrplatano-brand {
+      color: var(--accent-yellow);
+      font-size: 1.19em;
+      font-weight: bold;
+      text-align: center;
+      margin: 0.1em 0 0.6em 0;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    main {
+      max-width: 660px;
+      margin: 1em auto;
+      padding: 0 0.5em;
+    }
+    .section {
+      margin-bottom: 1em;
+      background: var(--card-bg) !important;
+      border-radius: 15px;
+      box-shadow: 0 1px 6px rgba(56,142,60,0.10);
+      padding: 1em;
+    }
+    .section h2 {
+      color: var(--primary-green);
+      font-size: 1.1em;
+      margin-bottom: 0.7em;
+      padding-left: 0.1em;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .materials-table {
+      width: 100%;
+      overflow-x: auto;
+      margin-bottom: .5em;
+    }
+    .material-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3em;
+    }
+    .material-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.23em;
+      align-items: center;
+      background: rgba(255,255,255,0.2);
+      border-radius: 9px;
+      padding: 0.18em 0.1em 0.18em 0.12em;
+      margin-bottom: 0.12em;
+    }
+    .material-row input[type="text"], .material-row input[type="number"] {
+      flex: 1 1 42px;
+      min-width: 0;
+      padding: 0.37em 0.4em;
+      border: 1.1px solid #A4D08C;
+      border-radius: 6px;
+      font-size: 0.94em;
+      background: #C0F2DF; /* verde agua para inputs */
+      margin-bottom: 0;
+    }
+    .material-row input[type="text"]:first-child {
+      min-width: 85px;
+      max-width: 125px;
+    }
+    .material-row label {
+      font-size: 0.84em;
+      font-weight: 500;
+      color: #2a7e2d;
+      min-width: 44px;
+    }
+    .material-row button {
+      background: var(--primary-green);
+      border: none;
+      color: #fff;
+      border-radius: 13px;
+      padding: 0.15em 0.7em;
+      font-size: 1em;
+      margin-left: 0.16em;
+      cursor: pointer;
+      box-shadow: 0 1px 1px rgba(56,142,60,0.13);
+    }
+    .add-btn {
+      display: block;
+      margin: 0.7em 0 0.4em 0;
+      background: var(--accent-yellow);
+      color: var(--primary-green);
+      padding: 0.5em 1.6em;
+      border-radius: 25px;
+      font-size: 1.07em;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(56,142,60,0.04);
+    }
+    label {
+      font-size: 0.97em;
+      color: #24541f;
+    }
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      margin-bottom: 0.7em;
+      background: #C0F2DF; /* verde agua para inputs */
+      border: 1px solid #CDEBC2;
+    }
+    .summary {
+      background: var(--summary-bg);
+      color: var(--summary-fg);
+      border-radius: 15px;
+      padding: 1em 1.2em;
+      font-weight: 500;
+      font-size: 1.08em;
+      box-shadow: 0 2px 18px rgba(56,142,60,0.06);
+      margin-bottom: 1.2em;
+      border: 2.5px solid #FFEB3B !important;
+    }
+    .summary .line {
+      margin: 0.22em 0;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .highlight {
+      color: #FFEB3B;
+      font-weight: 700;
+      font-size: 1.12em;
+    }
+    .summary-currency {
+      font-size: 0.92em;
+      color: #A5D6A7;
+      font-weight: 400;
+      margin-left: 0.12em;
+      letter-spacing: 0.1em;
+    }
+    .public-price {
+      border-top: 1px solid #E5F6E1;
+      padding-top: 0.56em;
+      margin-top: 0.56em;
+      font-size: 1.16em;
+      color: #ffe955;
+    }
+    .usdve-rate {
+      background: #2E7D32;
+      color: #FFEB3B;
+      border-radius: 10px;
+      padding: 0.13em 0.7em;
+      font-size: 0.89em;
+      display: inline-block;
+      margin-bottom: 0.5em;
+      margin-right: 0.3em;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      border: 2.2px solid #FFEB3B !important;
+    }
+    .rate-changer {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      margin-bottom: 0.75em;
+      flex-wrap: wrap;
+    }
+    .mat-cost-summary-table {
+      background: var(--mat-summary-bg);
+      border-radius: 13px;
+      margin: 0.3em 0 0.8em 0;
+      padding: 0.44em 0.4em;
+      box-shadow: 0 1px 7px rgba(34, 59, 32, 0.17);
+      width: 100%;
+      font-size:0.97em;
+      border-spacing:0 2.5px;
+    }
+    .mat-cost-summary-table th,
+    .mat-cost-summary-table td {
+      background: transparent;
+      padding: 0.25em 0.25em;
+      text-align: right;
+    }
+    .mat-cost-summary-table th {
+      color: #ffe955;
+      font-weight: 700;
+      text-align: left;
+    }
+    .mat-cost-summary-table td:first-child {
+      text-align: left;
+      color: #ffe955;
+      font-weight: 500;
+    }
+    .mat-cost-summary-table td:last-child {
+      font-weight: 600;
+      color: #feffb9;
+    }
+    .summary-main-lines {
+      background: #23551E;
+      border-radius: 15px;
+      padding: 0.7em 0.95em;
+      margin: 0.85em 0 0.1em 0;
+      box-shadow: 0 1.5px 7px rgba(34, 59, 32, 0.095);
+      border: 2.5px solid #FFEB3B !important;
+    }
+    .summary-main-lines .line {
+      color: #fff;
+    }
+    .summary-main-lines .highlight {
+      color: #FFEB3B;
+    }
+    .summary-main-message {
+      background: #23551E;
+      color: #ffe955 !important;
+      font-size: 1em !important;
+      opacity: 1 !important;
+      margin-top: 0.95em;
+      border-radius: 13px;
+      padding: 0.72em 0.9em;
+      font-weight: bold;
+      box-shadow: 0 1.5px 8px rgba(34, 59, 32, 0.11);
+    }
+    .thanks-message {
+      text-align: center;
+      margin: 2em auto 1em auto;
+      font-size: 1.2em;
+      font-weight: 600;
+      color: var(--primary-green);
+      letter-spacing: 0.8px;
+    }
+    @media (max-width:900px) {
+      html, body, main, .section, .summary, .material-row, label, input, select {
+        font-size: 0.96em !important;
+      }
+      header {font-size: 1em;}
+    }
+    @media (max-width:600px) {
+      html, body, main, .section, .summary, .material-row, label, input, select {
+        font-size: 0.92em !important;
+      }
+      main {
+        padding: 0 0.02em;
+        max-width: 99vw;
+        min-width: 0;
+      }
+      header {
+        font-size: 0.97em;
+        padding: 0.7em 0 0.3em 0;
+      }
+      .section {
+        padding: 0.59em 0.18em;
+        margin-bottom: 0.48em;
+      }
+      .summary {
+        padding: 0.55em 0.12em;
+        margin-bottom: 0.7em;
+      }
+      .material-row {
+        font-size: 0.97em;
+      }
+    }
+    @media (max-width:400px) {
+      html, body, main, .section, .material-row, .material-row input, label {
+        font-size: 0.89em !important;
+      }
+      .section, .summary-main-lines {padding:0.32em 0.07em;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-title">
+      <span>
+        <span style="color:#FFEB3B;">Costos de Producción</span>
+        <span style="display:block;font-size:1.02em;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#FFEB3B;">MR. PLATANO</span>
+      </span>
+    </div>
+  </header>
+  <main>
+    <form id="costForm" autocomplete="off">
+      <!-- Sección de Materiales -->
+      <section class="section" id="materiales-section">
+        <div class="section-header-with-date">
+          <h2>Materiales usados</h2>
+          
+        </div>
+        <div class="materials-table" style="overflow-x:auto;">
+          <!-- DÓNDE SALEN LOS MATERIALES -->
+        </div>
+        <div class="material-list" id="materialList"></div>
+        <!-- Botones de acción mejorados para materiales -->
+        <div class="material-actions" style="display:flex;align-items:center;gap:0.6em;flex-wrap:wrap;margin-top:0.5em;margin-bottom:0.3em;">
+          <button type="button" class="add-btn" id="addMaterialBtn" aria-label="Añadir material" style="margin:0;">
+            <span style="display:flex;align-items:center;gap:0.3em;font-size:1.06em;">➕ Material</span>
+          </button>
+          <!-- Botón de calculadora tradicional, ahora al lado de añadir -->
+          <button type="button" id="toggleTradCalcBtn" class="add-btn" aria-label="Mostrar calculadora" 
+            style="background:#388E3C;color:#ffe955;margin:0; font-size:0.97em;padding:0.45em 1.2em;display:flex;align-items:center;gap:0.22em;">
+            <span style="font-weight:800;font-size:1.07em;">🧮 Calculadora</span>
+          </button>
+        </div>
+        <!-- Calculadora tradicional -->
+        <div id="tradCalcApp" style="display:none;flex-direction:column;align-items:center;margin-top:0.5em;">
+          <input id="tradCalcInput" type="text" inputmode="decimal" style="width:100%;max-width:235px;font-size:1.06em;margin-bottom:0.49em;border:2.2px solid #FFEB3B;border-radius:9px;background:#fff4b3;padding:0.29em 0.42em;color:#176100;text-align:right;" autocomplete="off" readonly />
+          <div style="width:100%;max-width:235px;display:grid;grid-template-columns:repeat(4,1fr);gap:0.37em;">
+            <button class="trad-calc-btn" type="button">7</button>
+            <button class="trad-calc-btn" type="button">8</button>
+            <button class="trad-calc-btn" type="button">9</button>
+            <button class="trad-calc-btn" type="button">/</button>
+            <button class="trad-calc-btn" type="button">4</button>
+            <button class="trad-calc-btn" type="button">5</button>
+            <button class="trad-calc-btn" type="button">6</button>
+            <button class="trad-calc-btn" type="button">*</button>
+            <button class="trad-calc-btn" type="button">1</button>
+            <button class="trad-calc-btn" type="button">2</button>
+            <button class="trad-calc-btn" type="button">3</button>
+            <button class="trad-calc-btn" type="button">-</button>
+            <button class="trad-calc-btn" type="button">0</button>
+            <button class="trad-calc-btn" type="button">.</button>
+            <button class="trad-calc-btn" type="button" id="tradCalcClear">C</button>
+            <button class="trad-calc-btn" type="button">+</button>
+            <button class="trad-calc-btn" type="button" id="tradCalcEqual" style="grid-column:span 4;background:#388e3c;color:#ffe955;font-weight:800;font-size:1.07em;margin-top:0.18em;">=</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mano de obra y gastos adicionales -->
+      <section class="section">
+        <h2>Costo de Mano de Obra y Gastos Adicionales</h2>
+        <label for="laborCost">Mano de obra (total):</label>
+        <div style="display:flex;gap:0.3em;align-items:baseline;">
+          <input type="number" step="0.01" id="laborCost" min="0" placeholder="0.00" style="flex:1;">
+          <select id="laborCurrency">
+            <option value="bs">Bs</option>
+            <option value="usd">$</option>
+          </select>
+        </div>
+
+        <!-- Sección de Gastos Adicionales Múltiples -->
+        <h2 style="margin-top:1em;">Gastos Adicionales</h2>
+        <div class="additional-expenses-list" id="additionalExpenseList">
+          <!-- Gastos adicionales serán renderizados aquí por JS -->
+        </div>
+        <button type="button" class="add-btn" id="addAdditionalExpenseBtn" aria-label="Añadir gasto adicional" style="margin-top:0.7em;">
+          <span style="display:flex;align-items:center;gap:0.3em;font-size:1.06em;">➕ Gasto Adicional</span>
+        </button>
+
+        
+      </section>
+
+      <!-- Paquetes elaborados -->
+      <section class="section">
+        <h2>Producción</h2>
+        <label for="numPackages">Cantidad de paquetes elaborados:</label>
+        <input type="number" id="numPackages" min="1" placeholder="0">
+      </section>
+
+      <!-- Margen de ganancia y cálculo -->
+      <section class="section">
+        <h2>Ganancia y Precio de Venta</h2>
+        <label for="profitPercent">Porcentaje de ganancia deseada:</label>
+        <input type="number" step="1" id="profitPercent" min="0" max="500" placeholder="0">
+
+        <label for="publicExtra">Margen extra de precio público (% opcional):</label>
+        <input type="number" step="1" id="publicExtra" min="0" max="1000" placeholder="0">
+      </section>
+    </form>
+
+    <!-- Tasa de cambio -->
+    <section class="section rate-changer">
+      <span class="usdve-rate">Tasa Bs/USD <span style="background:#ffe955;color:var(--header-green);padding:0.04em 0.4em;border-radius:7px;font-size:0.92em;margin-left:0.19em;">BCV</span>:</span>
+      <input type="number" id="usdToVes" min="1" step="0.01" value="36.00" />
+      <!-- Nuevo botón para redireccionar a BCV -->
+      <button type="button" id="goToBcvBtn" class="add-btn" aria-label="Ir a página oficial de BCV"
+        style="background:#2E7D32;color:#ffe955;margin:0; font-size:0.92em;padding:0.4em 1.2em;display:flex;align-items:center;gap:0.22em; border:1.8px solid #FFEB3B !important;">
+        <span style="font-weight:800;font-size:1.02em;">🌐 Ir a BCV</span>
+      </button>
+    </section>
+
+    <!-- Nuevo botón de Imprimir Resumen -->
+    <button type="button" id="printSummaryBtn" class="add-btn" aria-label="Imprimir Resumen"
+        style="background:#388E3C;color:#ffe955;margin-bottom:1em; font-size:1.02em;padding:0.45em 1.5em;display:block;width:fit-content;margin-left:auto;margin-right:auto;border:2px solid #FFEB3B !important;">
+        <span style="display:flex;align-items:center;gap:0.3em;font-weight:800;font-size:1.02em;">🖨️ Imprimir Resumen</span>
+    </button>
+    
+    <!-- Resumen -->
+    <section class="section summary" id="summarySection">
+      <!-- Se llenará con JS -->
+    </section>
+    
+    <!-- Close button for print preview -->
+    <button type="button" id="closePrintPreviewBtn" class="add-btn" aria-label="Cerrar vista previa"
+        style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 1000; background: var(--accent-yellow); color: var(--primary-green); border: 2px solid var(--primary-green) !important;">
+        Cerrar
+    </button>
+
+  </main>
+  <script type="importmap">
+    {
+      "imports": {
+        "jspdf": "https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js",
+        "html2canvas": "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"
+      }
+    }
+  </script>
+  <script type="module" src="main.js"></script>
+  <script type="module">
+    // Mostrar/Ocultar la calculadora tradicional
+    const tradCalcInput = document.getElementById('tradCalcInput');
+    if(tradCalcInput) tradCalcInput.value = '';
+    let tradCalcBuffer = '';
+    let tradCalcResultJustEvaluated = false;
+    function appendTradCalc(val) {
+      if (tradCalcResultJustEvaluated && /[0-9.]/.test(val)) {
+        tradCalcBuffer = '';
+        tradCalcResultJustEvaluated = false;
+      }
+      tradCalcBuffer += val;
+      tradCalcInput.value = tradCalcBuffer;
+    }
+    function clearTradCalc() {
+      tradCalcBuffer = '';
+      tradCalcResultJustEvaluated = false;
+      tradCalcInput.value = '';
+    }
+    function evalTradCalc() {
+      try {
+        if (!tradCalcBuffer || /[^0-9+\-*/. ()]/.test(tradCalcBuffer)) {
+          tradCalcInput.value = 'Inválido';
+          tradCalcResultJustEvaluated = true;
+          return;
+        }
+        let result = eval(tradCalcBuffer);
+        if (typeof result === "number" && isFinite(result)) {
+          tradCalcInput.value = result;
+          tradCalcBuffer = result.toString();
+          tradCalcResultJustEvaluated = true;
+        } else {
+          tradCalcInput.value = "Error";
+          tradCalcResultJustEvaluated = true;
+        }
+      } catch (e) {
+        tradCalcInput.value = "Error";
+        tradCalcResultJustEvaluated = true;
+      }
+    }
+    // Event delegation for calculator buttons
+    document.querySelectorAll('.trad-calc-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const v = e.target.innerText;
+        if (v === "=") {
+          evalTradCalc();
+        } else if (
+          v === "C"
+        ) {
+          clearTradCalc();
+        } else {
+          appendTradCalc(v);
+        }
+      });
+    });
+    // Keyboard support - only for numeric, operators and enter
+    tradCalcInput?.addEventListener('keydown', e => {
+      if (!tradCalcInput) return;
+      // Only allow numbers, operators (+ - * / .), Enter, Backspace, Escape, Delete
+      const allowed = '0123456789.+-*/()';
+      if (allowed.includes(e.key)) {
+        appendTradCalc(e.key);
+        e.preventDefault();
+      } else if (e.key === 'Enter' || e.key === "=") {
+        evalTradCalc();
+        e.preventDefault();
+      } else if (e.key === 'Backspace') {
+        tradCalcBuffer = tradCalcBuffer.slice(0, -1);
+        tradCalcInput.value = tradCalcBuffer;
+        e.preventDefault();
+      } else if (e.key === 'Escape') {
+        clearTradCalc();
+        e.preventDefault();
+      } else if (e.key === "c" || e.key === "C") {
+        clearTradCalc();
+        e.preventDefault();
+      }
+      // Anything else: ignore
+    });
+
+    // Mostrar/Ocultar la calculadora tradicional
+    const toggleTradCalcBtn = document.getElementById('toggleTradCalcBtn');
+    const tradCalcApp = document.getElementById('tradCalcApp');
+    if(toggleTradCalcBtn && tradCalcApp){
+      toggleTradCalcBtn.addEventListener('click', ()=>{
+        if(tradCalcApp.style.display === 'none' || tradCalcApp.style.display === ''){
+          tradCalcApp.style.display = 'flex';
+          tradCalcInput.focus();
+        } else {
+          tradCalcApp.style.display = 'none';
+        }
+      });
+    }
+
+    // Esc para cerrar calculadora si visible
+    window.addEventListener("keydown", e=>{
+      if(tradCalcApp && tradCalcApp.style.display==="flex" && (e.key==="Escape"||e.key==="Esc")){
+        tradCalcApp.style.display = "none";
+      }
+    });
+
+    // =====================
+    // IMPRIMIR FACTURA PDF
+    // =====================
+    
+  </script>
+</body>
+</html>

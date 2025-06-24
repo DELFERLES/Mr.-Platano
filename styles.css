@@ -1,0 +1,663 @@
+:root {
+  --primary-green: #388E3C;
+  --accent-yellow: #FFEB3B;
+  --bg-grad-start: #D0F5EC; /* verde agua predominante */
+  --bg-grad-end: #A5D6A7;
+  --header-green: #2E7D32;
+  --card-bg: #C0F2DF; /* verde agua para todas las tarjetas y campos de entrada */
+  --summary-bg: #23551E; /* Ajuste: verde oscuro predominante */
+  --summary-fg: #FFFFFF;
+  --darker-yellow-print: #CCB300; /* Un amarillo más oscuro para la impresión */
+}
+html, body {
+  height: 100%;
+}
+body {
+  min-height: 100vh;
+  font-family: 'Roboto', Arial, sans-serif;
+  margin: 0;
+  background: linear-gradient(135deg, var(--bg-grad-start) 40%, var(--bg-grad-end) 100%);
+  color: #222;
+  padding-bottom: 80px;
+  font-size: 15px !important;
+}
+header {
+  background: var(--primary-green);
+  color: var(--accent-yellow);
+  text-align: center;
+  padding: 1em 0 0.5em 0;
+  box-shadow: 0 2px 8px rgba(60,72,56,0.12);
+  font-size: 1.18em;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+/* Logo en header: borde amarillo más grueso */
+.header-logo {
+  border: 3.5px solid var(--accent-yellow) !important; /* <-- más grueso */
+}
+main {
+  max-width: 660px;
+  margin: 1em auto;
+  padding: 0 0.5em;
+  font-size: 1em;
+}
+.section {
+  margin-bottom: 0.8em;
+  background: var(--card-bg) !important;
+  border-radius: 13px;
+  box-shadow: 0 1px 5px rgba(56,142,60,0.09);
+  padding: 0.8em;
+}
+.section h2 {
+  color: var(--primary-green);
+  font-size: 0.98em;
+  margin-bottom: 0.6em;
+  padding-left: 0.1em;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+/* Style for the new container holding H2 and date */
+.section-header-with-date {
+  display: flex;
+  justify-content: flex-start; /* Changed to flex-start as date is removed */
+  align-items: center; 
+  margin-bottom: 0.7em; 
+  padding-left: 0.1em;
+}
+
+.section-header-with-date h2 {
+  margin-bottom: 0; 
+  font-size: 0.98em; 
+  padding-left: 0; 
+}
+
+/* --- Mejor apariencia de la lista de materiales (nueva versión) --- */
+.material-list, .additional-expenses-list { /* Shared container styles */
+  display: flex;
+  flex-direction: column;
+  gap: 0.27em;
+}
+
+/* Shared styles for dynamic input rows (materials and additional expenses) */
+.dynamic-row {
+  display: flex;
+  align-items: baseline; /* Changed from 'center' to 'baseline' to align content vertically */
+  gap: 0.3em; /* Increased gap from 0.18em */
+  padding: 0.22em 0.13em 0.22em 0.15em;
+  position: relative;
+  transition: border 0.15s, box-shadow 0.13s;
+  font-size: 0.98em;
+}
+.dynamic-row:focus-within, .dynamic-row:hover {
+  border-color: #ffe955;
+  box-shadow: 0 2px 14px #388e3c22;
+}
+/* Base styles for all primary form inputs and selects */
+input[type="number"],
+input[type="text"],
+select {
+  background: var(--card-bg); /* Use the card background color */
+  border: 2px solid var(--accent-yellow) !important; /* Yellow border, consistent thickness */
+  border-radius: 7px; /* Consistent border radius */
+  padding: 0.27em 0.34em; /* Consistent padding */
+  font-size: 0.98em; /* Consistent font size */
+  color: #183D1A; /* Dark green text color */
+  outline: none; /* Remove default outline */
+  box-shadow: 0 1px 2px #388e3c13; /* Subtle shadow */
+  transition: box-shadow 0.14s; /* Smooth transition for focus/hover */
+}
+
+/* Focus/hover states for consistency */
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus,
+input[type="number"]:hover,
+input[type="text"]:hover,
+select:hover {
+  box-shadow: 0 2px 6px #388e3c21; /* Enhanced shadow on focus/hover */
+}
+
+/* Specific adjustments for inputs (e.g., width, margin) */
+input[type="number"], input[type="text"] {
+  width: 100%; /* Default width for block-level inputs */
+  margin-bottom: 0.55em; /* Default margin for block-level inputs */
+}
+
+/* Material Row specific input styling for uniform distribution */
+.material-row input[type="text"]:first-child {
+  flex: 2 1 0; /* Allows it to take twice as much space as other inputs */
+  min-width: 80px; /* Minimum width to prevent shrinking too much */
+  font-weight:500;
+  font-size:0.98em;
+}
+
+.material-row input[type="number"] { /* Targets quantity, gramosTotales, gramosUsados */
+  flex: 1 1 0; /* Equal growth for numeric inputs */
+  min-width: 45px; /* Prevent shrinking too much */
+}
+
+.material-row .costo-wrapper { /* Targets the wrapper for Cost and Currency */
+  flex: 1.5 1 0; /* Gives it more relative space than regular numbers */
+  min-width: 100px; /* Ensure wrapper doesn't shrink too much */
+  display: flex;
+  align-items: center;
+  gap: 0.19em;
+}
+
+.material-row .costo-wrapper input[type="number"] { /* Cost input inside wrapper */
+  flex: 1 1 0; /* Cost input takes available space within its wrapper */
+  min-width: 35px; /* Allow it to shrink, but not too much */
+}
+
+.material-row .costo-wrapper select { /* Currency select inside wrapper */
+  flex: 0 0 auto; /* Currency select takes its natural size */
+  min-width: 45px; /* Ensure visibility */
+  font-size: 0.9em; /* Slightly smaller font for the select */
+}
+/* Add style for additional-expense-row select */
+.additional-expense-row select {
+  flex: 0 0 auto;
+  min-width: 45px;
+  font-size: 0.9em; /* Apply same smaller font size */
+}
+
+/* Specific overrides/additions for additional expense rows */
+.additional-expense-row {
+  /* No specific background or border for the row itself, inputs will retain their styles */
+  padding: 0.22em 0.13em 0.22em 0.15em; /* Keep padding for spacing */
+  margin-bottom: 0.3em; /* Add some spacing between rows */
+  border-radius: 0; /* No explicit border-radius for the container */
+  box-shadow: none; /* No shadow for the container */
+  background: transparent; /* No background for the container */
+  border: none; /* No border for the container */
+}
+
+.additional-expense-row input,
+.additional-expense-row select {
+  background: var(--card-bg); /* Ensure inputs within the row still have their distinct background */
+}
+.material-row label {
+  font-size: 0.81em;
+  font-weight: 500;
+  color: #2a7e2d;
+  min-width: 41px;
+}
+.material-row button,
+.additional-expense-row button { /* Combined to share styles */
+  background: var(--header-green); /* Verde oscuro pero un poco más claro, como el header */
+  color: #fff; /* Blanco */
+  border-radius: 14px;
+  border: none; /* No border by default */
+  font-size: 1em;
+  font-weight: bold;
+  padding: 0.03em 0.53em;
+  margin-left: 0.15em;
+  cursor: pointer;
+  box-shadow: 0 1.2px 5px rgba(0,0,0,0.2); /* Keep a generic shadow */
+  transition: background 0.15s, color 0.1s, border 0.14s;
+  flex: 0 0 auto; /* Make button fixed size */
+}
+.material-row button:hover,
+.material-row button:focus,
+.additional-expense-row button:hover,
+.additional-expense-row button:focus { /* Combined to share styles */
+  background: var(--accent-yellow); /* Color amarillo */
+  color: var(--primary-green); /* Color verde para la 'x' */
+  border: none; /* No border on hover either */
+}
+/* Specific overrides/additions for additional expense rows */
+.additional-expense-row input[type="text"]:first-child {
+  flex: 2 1 0; /* Allows it to take twice as much space as other inputs */
+  min-width: 82px; /* Similar to materials, adjust if needed */
+  font-weight:500;
+  font-size:0.98em;
+}
+
+/* Flexbox properties for the amount and currency wrapper in additional expenses */
+.additional-expense-row .amount-wrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 0.19em;
+  flex: 1 1 0; /* Allows it to grow and shrink, taking 1 unit of space */
+  min-width: 90px; /* Base minimum width for this wrapper */
+}
+
+/* Flexbox properties for the amount input within the amount wrapper */
+.additional-expense-row .amount-wrapper input[type="number"] {
+  flex: 1 1 0; /* Takes all available space within its wrapper */
+  min-width: 35px; /* Ensure it doesn't become too small */
+}
+
+.add-btn {
+  display: block;
+  margin: 0.7em 0 0.4em 0;
+  background: var(--accent-yellow);
+  color: var(--primary-green);
+  padding: 0.38em 1.2em;
+  border-radius: 25px;
+  font-size: 0.98em;
+  border: 2px solid #FFEB3B !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 7px rgba(56,142,60,0.04);
+}
+.material-actions {
+  margin-bottom:0.18em;
+}
+label {
+  font-size: 0.96em;
+  color: #24541f;
+}
+.summary {
+  background: var(--summary-bg);
+  color: var(--summary-fg);
+  border-radius: 13px;
+  padding: 0.8em 1em;
+  font-weight: 500;
+  font-size: 0.99em;
+  box-shadow: 0 2px 14px rgba(56,142,60,0.055);
+  margin-bottom: 1em;
+  border: 2px solid #FFEB3B !important; /* MÁS GRUESO */
+}
+.summary .line {
+  margin: 0.15em 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-size: 0.99em;
+}
+.highlight {
+  color: #FFEB3B;
+  font-weight: 700;
+  font-size: 1.12em;
+  text-shadow: 0 0 2px #ffeb3bbd; /* leve brillo, ayuda a destacar en verde oscuro */
+}
+.summary-currency {
+  font-size: 0.91em;
+  color: #A5D6A7;
+  font-weight: 400;
+  margin-left: 0.1em;
+  letter-spacing: 0.09em;
+}
+.public-price {
+  border-top: 1px solid #E5F6E1;
+  padding-top: 0.42em;
+  margin-top: 0.45em;
+  font-size: 1.07em;
+  color: #ffe955;
+}
+.usdve-rate {
+  background: #2E7D32;
+  color: #FFEB3B;
+  border-radius: 9px;
+  padding: 0.10em 0.56em;
+  font-size: 0.87em;
+  display: inline-block;
+  margin-bottom: 0.3em;
+  margin-right: 0.27em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  border: 1.8px solid #FFEB3B !important;
+}
+.rate-changer {
+  display: flex;
+  align-items: center;
+  gap: 0.44em;
+  margin-bottom: 0.6em;
+  flex-wrap: wrap;
+  font-size: 0.96em;
+}
+.rate-changer input[type="number"] {
+  width: 80px;
+  background: #FFFFFF; /* White background for this specific input */
+  color: #256d29;
+  margin-bottom:0;
+}
+/* Cambiar fondo específicamente para el resumen de líneas de totales principales */
+.summary-main-lines {
+  background: #23551E;
+  border-radius: 12px;
+  padding: 0.51em 0.81em;
+  margin: 0.7em 0 0.09em 0;
+  box-shadow: 0 1px 7px rgba(34, 59, 32, 0.09);
+  border: 2px solid #FFEB3B !important; /* MÁS GRUESO */
+  font-size: 0.99em;
+}
+.summary-main-lines .line {
+  color: #fff;
+}
+.summary-main-lines .highlight {
+  color: #FFEB3B;
+}
+/* Mensaje de paquetes debe ser muy visible */
+.summary-main-message {
+  background: #23551E;
+  color: #ffe955 !important;
+  font-size: 0.96em !important;
+  opacity: 1 !important;
+  margin-top: 0.7em;
+  border-radius: 11px;
+  padding: 0.57em 0.7em;
+  font-weight: bold;
+  box-shadow: 0 1.2px 7px rgba(34, 59, 32, 0.11);
+}
+/* For the last message in the summary, remove opacity and make it clearly visible */
+#summarySection > div[style*="margin-top"] {
+  color: #ffe955 !important;
+  font-size: 1em !important;
+  opacity: 1 !important;
+}
+/* --- CALCULADORA --- */
+#tradCalcApp {
+  font-size: 0.97em;
+}
+#tradCalcInput {
+  background:#fff4b3 !important; /* Keep its distinct background */
+  border:2.2px solid #FFEB3B !important; /* Keep its distinct border */
+  color:#176100 !important;
+  text-align:right !important;
+  font-size: 1.08em !important;
+}
+/* Gracias message style */
+.thanks-message {
+  text-align: center;
+  margin: 2em auto 1em auto;
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--primary-green);
+  letter-spacing: 0.8px;
+}
+/* MOBILE ADAPTATION */
+@media (max-width: 900px) {
+  body, main, .summary, .section {
+    font-size: 0.96em !important;
+  }
+  header {font-size: 1em;}
+}
+
+@media (max-width: 600px) {
+  html, body, main, .summary, .section, input, .dynamic-row, label {
+    font-size: 0.92em !important;
+  }
+  main {
+    padding: 0 0.02em;
+    max-width: 99vw;
+    min-width: 0;
+  }
+  header {
+    font-size: 0.97em;
+    padding: 0.7em 0 0.3em 0;
+  }
+  .section {
+    padding: 0.59em 0.18em;
+    margin-bottom: 0.48em;
+  }
+  .summary {
+    padding: 0.55em 0.12em;
+    margin-bottom: 0.7em;
+  }
+  .dynamic-row { /* Apply to both material and expense rows */
+    flex-wrap: wrap;
+    gap: 0.2em; /* Adjusted gap for smaller screens */
+    padding: 0.07em 0 0.08em 0.01em;
+    box-shadow: 0 2px 5px #388e3c12;
+    font-size: 0.97em;
+  }
+  .dynamic-row input, .dynamic-row label { /* Apply to both material and expense rows */
+    font-size: 0.93em;
+  }
+  .add-btn {
+    padding:0.42em 0.95em;
+    font-size:0.95em
+  }
+  .section-header-with-date {
+    gap: 0.1em; /* This gap now applies horizontally between H2 and date */
+    margin-bottom: 0.4em;
+  }
+}
+
+/* Para pantallas especialmente pequeñas (ejemplo celulares antiguos, mini o muy comprimidos) */
+@media (max-width: 400px) {
+  body, main, .summary, .section, .material-row, .material-row input, label { /* Changed .dynamic-row back to .material-row to be explicit. .additional-expense-row has same rules applied earlier. */
+    font-size: 0.89em !important;
+  }
+  .section, .summary-main-lines {padding:0.32em 0.07em;}
+}
+/* Estilos para impresión - Ocultar elementos no deseados */
+@media print {
+  body {
+    background: none;
+    color: #000;
+    padding: 0;
+    margin: 0;
+  }
+  header {
+    display: block !important;
+  }
+  main {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  /* Hide all sections by default within main, then show only the summary and rate */
+  main section:not(#summarySection):not(.rate-changer) {
+    display: none !important;
+  }
+  /* Hide the print summary button */
+  #printSummaryBtn {
+    display: none !important;
+  }
+  /* Ensure the summary and rate changer are visible */
+  #summarySection,
+  .rate-changer {
+    display: block !important;
+  }
+  /* Hide all interactive elements */
+  input, button, select, .add-btn:not(#closePrintPreviewBtn) { /* Keep close button visible in print preview */
+    display: none !important;
+  }
+  /* Re-show the usdve-rate span within rate-changer */
+  .usdve-rate {
+    display: inline-block !important;
+    background: none !important;
+    color: #000 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  /* Ensure summary elements are black on white and properly styled for print */
+  .summary, .summary-main-lines, .summary-main-message, .mat-cost-summary-table {
+    background: var(--card-bg) !important; /* Lighter green background for summary sections */
+    border: none !important;
+    box-shadow: none !important;
+    color: #000 !important; /* General text color within summary to black */
+    font-size: 1em !important; /* Reset font size if needed */
+  }
+  .summary .line, .summary-main-lines .line:not([style*="background:#ffe955"]), /* Exclude the special lines here */
+  .material-line-dark {
+    color: #000 !important; /* Set general line text to black */
+    background: var(--card-bg) !important; /* Ensure light green background for these lines */
+    padding: 0.22em 0;
+    margin: 0.15em 0;
+    border-radius: 0 !important;
+  }
+  /* Make highlighted numbers and currency yellow within main summary lines, except special totals */
+  .summary-main-lines .line .highlight,
+  .summary-main-lines .line .summary-currency {
+    color: var(--accent-yellow) !important; /* Numbers should be yellow in print */
+    text-shadow: none !important;
+  }
+  /* Override for the 3 special total lines (Total Gastos, Ganancia Total, Ganancia Neta Total) */
+  .summary-main-lines .line[style*="background:#ffe955"] {
+    background: var(--card-bg) !important; /* These specific lines should also have light green background */
+    color: var(--primary-green) !important; /* Keep the green text for labels */
+    border-radius: 0 !important;
+    padding: 0.22em 0 !important;
+  }
+  /* Ensure the label span within these special lines is green */
+  .summary-main-lines .line[style*="background:#ffe955"] span {
+    color: var(--primary-green) !important; /* Keep the green text for spans inside */
+  }
+  /* The numbers (highlights) within these special lines should be white */
+  .summary-main-lines .line[style*="background:#ffe955"] .highlight,
+  .summary-main-lines .line[style*="background:#ffe955"] .summary-currency {
+    color: white !important; /* Explicitly set numbers to white here */
+  }
+  /* Ensure titles like "Materiales usados" or "Gastos Adicionales" are hidden if their sections are hidden */
+  .section h2 {
+    display: none !important; /* Hide section titles if the section is hidden */
+  }
+  
+  /* Ensure the thanks message is visible and black on print */
+  .thanks-message {
+    color: #000 !important;
+  }
+}
+
+/* New styles for screen print preview */
+body.print-preview {
+  overflow: hidden; /* Prevent scrolling the original page content */
+  background: white !important; /* Ensure the body itself is white */
+}
+
+body.print-preview main {
+  position: fixed; /* Fix main content for the preview */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: white !important; /* White background for the preview */
+  z-index: 999; /* Bring it to the front */
+  overflow-y: auto; /* Allow scrolling within the preview */
+  padding: 0; /* Remove main padding in preview */
+  margin: 0; /* Remove main margin in preview */
+  max-width: unset; /* Remove max-width restriction */
+}
+
+body.print-preview header {
+  display: flex !important; /* Changed from block to flex to center content */
+  align-items: center;
+  justify-content: center;
+  position: sticky; /* Make header sticky in preview */
+  top: 0;
+  z-index: 1000;
+  /* Use original header colors */
+  background: var(--primary-green) !important;
+  color: var(--accent-yellow) !important;
+  box-shadow: 0 2px 8px rgba(60,72,56,0.12);
+  padding: 1em 0 0.5em 0 !important; /* Restore padding */
+  font-size: 1.18em !important; /* Restore font size */
+}
+body.print-preview .header-title {
+  display: flex !important; /* Ensure flex behavior */
+  flex-direction: column !important; /* Stack title lines */
+  gap: 0.1em !important; /* Reduce gap */
+}
+body.print-preview .header-title span {
+  color: var(--accent-yellow) !important; /* Ensure yellow text */
+}
+body.print-preview .header-logo {
+  display: none !important; /* Hide logo in print preview */
+}
+
+/* Hide the print summary button in print preview */
+body.print-preview #printSummaryBtn {
+  display: none !important;
+}
+
+/* Hide all sections except summary and rate-changer in preview */
+body.print-preview main section:not(#summarySection):not(.rate-changer) {
+  display: none !important;
+}
+
+/* Ensure summary and rate-changer are visible and styled for preview */
+body.print-preview #summarySection,
+body.print-preview .rate-changer {
+  display: block !important;
+  /* Reset background and colors for print-like appearance */
+  background: var(--card-bg) !important; /* Lighter green background for print preview */
+  border: none !important;
+  box-shadow: none !important;
+  padding: 1em 1.2em; /* Restore some padding for readability */
+}
+
+body.print-preview .summary,
+body.print-preview .summary-main-lines,
+body.print-preview .summary-main-message,
+body.print-preview .mat-cost-summary-table {
+  background: var(--card-bg) !important; /* All summary elements should have light green background */
+  border: none !important;
+  box-shadow: none !important;
+  color: #000 !important; /* Default text color within summary to black */
+}
+
+body.print-preview .summary .line,
+body.print-preview .summary-main-lines .line:not([style*="background:#ffe955"]),
+body.print-preview .material-line-dark {
+  color: #000 !important; /* Set general line text to black */
+  background: var(--card-bg) !important; /* Ensure light green background for these lines */
+  padding: 0.22em 0; /* Adjust line padding */
+  margin: 0.15em 0; /* Adjust line margin */
+  border-radius: 0 !important; /* No border radius */
+}
+
+/* Make highlighted numbers and currency a darker yellow in print preview */
+body.print-preview .summary-main-lines .line .highlight,
+body.print-preview .summary-main-lines .line .summary-currency {
+  color: var(--darker-yellow-print) !important; /* Numbers should be a darker yellow in print preview */
+  text-shadow: none !important;
+}
+
+/* Ensure specific colors for the "total gastos", "ganancia total", "ganancia neta total" lines remain green on white */
+body.print-preview .summary-main-lines .line[style*="background:#ffe955"] {
+  background: var(--card-bg) !important; /* Light green background */
+  color: var(--primary-green) !important; /* Keep the green text for labels */
+  border-radius: 0 !important;
+  padding: 0.22em 0 !important;
+}
+body.print-preview .summary-main-lines .line[style*="background:#ffe955"] span {
+  color: var(--primary-green) !important; /* Keep the green text for spans inside */
+}
+/* Change the numbers in these specific lines to darker yellow for print preview */
+body.print-preview .summary-main-lines .line[style*="background:#ffe955"] .highlight,
+body.print-preview .summary-main-lines .line[style*="background:#ffe955"] .summary-currency {
+  color: var(--darker-yellow-print) !important; /* Numbers in these specific lines should also be darker yellow */
+}
+
+/* Show the close button only in print-preview mode */
+body.print-preview #closePrintPreviewBtn {
+  display: block !important;
+  left: 50% !important; /* Center horizontally */
+  transform: translateX(-50%) !important; /* Adjust for half its width */
+  right: unset !important; /* Remove right property */
+}
+
+/* Specific styling for the rate display in print preview */
+body.print-preview .usdve-rate {
+  display: inline-block !important;
+  background: white !important;
+  color: #000 !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0;
+  margin-right: 0.5em;
+  font-size: 0.9em;
+  font-weight: normal;
+  letter-spacing: normal;
+}
+body.print-preview .usdve-rate span { /* The BCV text inside */
+  background: white !important;
+  color: #000 !important;
+  padding: 0;
+  border-radius: 0;
+  font-size: 1em;
+}
+
+/* Date in summary should be black in print preview */
+body.print-preview #summarySection > div[style*="text-align:right;"] {
+  color: #000 !important;
+}
+
+/* Thanks message should be black in print preview */
+body.print-preview .thanks-message {
+    color: #000 !important;
+}
